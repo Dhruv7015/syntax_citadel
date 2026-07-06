@@ -70,7 +70,7 @@ export default function MainMenu() {
           md:px-4 md:py-2 rounded-xl text-rose-300 font-bold transition-all duration-300 overflow-hidden hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(244,63,94,0.1)]
           max-w-10.5 hover:max-w-35 md:max-w-37.5 shrink-0 "
         >
-          <span className='text-lg shrink-0'><ArrowLeft /></span>
+          <span className=' shrink-0'><ArrowLeft /></span>
           <span className='opacity-0 group-hover:opacity-100 md:opacity-100  transition-opacity duration-300
           text-xs md:text-sm whitespace-nowrap tracking-wide'>Exit Game</span>
         </button>
@@ -176,18 +176,20 @@ export default function MainMenu() {
 </section>
 
       {/*  BOTTOM WORLD SELECTOR MODULE */}
-      <footer className="w-full flex justify-center items-center z-10">
-        <button 
-          onClick={() => alert("World Map selector incoming in next expansion packs!")}
-          className="group relative px-6 py-3 bg-linear-to-r from-emerald-900 via-teal-950 to-purple-950 border border-emerald-500/30 rounded-xl font-bold tracking-wider text-sm shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] hover:border-fuchsia-500/50 transition-all duration-300 hover:scale-105"
-        >
-          <span className="flex items-center space-x-2 text-emerald-300 group-hover:text-fuchsia-200">
-            <span>🗺️</span>
-            <span className="font-black">WORLD 01: FLEXBOX FOREST</span>
-            <span className="text-xs text-emerald-500 group-hover:text-fuchsia-400 font-medium">(CLICK TO SWITCH)</span>
-          </span>
-        </button>
-      </footer>
+     
+<footer className="w-full flex justify-center items-center z-10 px-2">
+  <button 
+    onClick={() => router.push('/world-2')} //  This instantly warps players to Grid Glacier!
+    className="group relative px-4 py-2.5 sm:px-6 sm:py-3 border rounded-xl font-bold tracking-wider text-xs sm:text-sm transition-all duration-500 hover:scale-105 active:scale-95 shadow-md bg-linear-to-r from-emerald-900 to-slate-900 border-emerald-500/30 text-emerald-300 hover:border-cyan-400"
+  >
+    <span className="flex items-center space-x-2">
+      <span>🗺️</span>
+      <span className="font-black uppercase">SWITCH TO: GRID GLACIER</span>
+      <span className="text-[10px] opacity-70 font-medium animate-pulse">(WARP)</span>
+    </span>
+  </button>
+</footer>
+      
 
     </main>
   );
