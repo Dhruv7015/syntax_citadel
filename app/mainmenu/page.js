@@ -12,10 +12,7 @@ export default function MainMenu() {
   const [points, setPoints] = useState(0);
 
   const [isMounted, setIsMounted] = useState(false);
-  useEffect(()=> {
-    setIsMounted(true);
-  }, []);
-
+  
   // 10 Levels with a dynamic status state
   const [levels, setLevels] = useState([
     { id: 1, name: "Justify Jungle", status: "unlocked" },
@@ -29,6 +26,11 @@ export default function MainMenu() {
     { id: 9, name: "Gap Glade", status: "locked" },
     { id: 10, name: "The Canopy Citadel", status: "locked" },
   ]);
+
+  useEffect(()=> {
+    setIsMounted(true);
+  }, []);
+
 
   // Dynamic click handler to simulate leveling up and watching the lock pop open!
   const handleLevelClick = (clickedLevel, index) => {
@@ -53,6 +55,9 @@ export default function MainMenu() {
       
     }
   };
+  if(!isMounted) {
+    return <div className='min-h-screen bg-slate-950' />
+  }
 
   return (
     <main className="flex flex-col justify-between min-h-screen bg-linear-to-b from-slate-950 via-emerald-950/40 to-neutral-950 font-mono text-white p-6 relative overflow-hidden">
