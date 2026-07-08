@@ -50,10 +50,10 @@ export default function MainMenu() {
       } else {
         alert(`🔒 Complete "${levels[index - 1]?.name}" first to clear the path!`);
       }
-    } else if (clickedLevel.status === "unlocked") {
-      alert(`Entering Level ${clickedLevel.id}: ${clickedLevel.name}`);
-      
-    }
+    }  else if (clickedLevel.status === "unlocked") {
+  
+  router.push(`/play/forest/${clickedLevel.id}`);
+}
   };
   if(!isMounted) {
     return <div className='min-h-screen bg-slate-950' />
