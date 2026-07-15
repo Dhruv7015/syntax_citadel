@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart, Lock, Trophy, Unlock, Flame, ArrowLeft } from 'lucide-react';
+import { getWorldTheme } from '@/lib/worlds';
 
 export default function MainMenu() {
   const router = useRouter();
@@ -15,17 +16,17 @@ export default function MainMenu() {
   
   // 10 Levels with a dynamic status state
   const [levels, setLevels] = useState([
-    { id: 1, name: "Justify Jungle", status: "unlocked" },
-    { id: 2, name: "Align Amazon", status: "locked" },
-    { id: 3, name: "Flex-Direction Deepwoods", status: "locked" },
-    { id: 4, name: "Wrap Wilderness", status: "locked" },
-    { id: 5, name: "Grow Grove", status: "locked" },
-    { id: 6, name: "Shrink Swamplands", status: "locked" },
-    { id: 7, name: "Basis Bushlands", status: "locked" },
-    { id: 8, name: "Order Outpost", status: "locked" },
-    { id: 9, name: "Gap Glade", status: "locked" },
-    { id: 10, name: "The Canopy Citadel", status: "locked" },
-  ]);
+  { id: 1, name: "WORLD-1", slug: "forest", status: "unlocked" },
+  { id: 2, name: "WORLD-2", slug: "iceworld", status: "locked" },
+  { id: 3, name: "WORLD-3", slug: "desert", status: "locked" },
+  { id: 4, name: "WORLD-4", slug: "ocean", status: "locked" },
+  { id: 5, name: "WORLD-5", slug: "volcano", status: "locked" },
+  { id: 6, name: "WORLD-6", slug: "sky", status: "locked" },
+  { id: 7, name: "WORLD-7", slug: "cave", status: "locked" },
+  { id: 8, name: "WORLD-8", slug: "swamp", status: "locked" },
+  { id: 9, name: "WORLD-9", slug: "tundra", status: "locked" },
+  { id: 10, name: "WORLD-10", slug: "space", status: "locked" },
+]);
 
   useEffect(()=> {
     setIsMounted(true);
@@ -52,7 +53,7 @@ export default function MainMenu() {
       }
     }  else if (clickedLevel.status === "unlocked") {
   
-  router.push(`/play/forest/${clickedLevel.id}`);
+  router.push(`/play/${clickedLevel.slug}`);
 }
   };
   if(!isMounted) {
@@ -120,10 +121,10 @@ export default function MainMenu() {
 <section className="flex-1 w-full max-w-4xl mx-auto my-8 flex flex-col items-center justify-center">
   <div className="text-center mb-8">
     <span className="text-xs tracking-widest uppercase font-bold text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-      Current Campaign
+      WELCOME!
     </span>
     <h2 className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-emerald-400 via-teal-200 to-fuchsia-400 mt-1 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-      FLEXBOX FOREST ARCHIPELAGO
+      CHOOSE YOUR JOURNEY
     </h2>
   </div>
 
@@ -133,6 +134,7 @@ export default function MainMenu() {
       const isLocked = level.status === "locked";
       const isUnlocking = level.status === "unlocking";
       const isUnlocked = level.status === "unlocked";
+      const theme = getWorldTheme(level.slug);
 
       return (
         <button
@@ -141,8 +143,8 @@ export default function MainMenu() {
           className={`group relative flex flex-col items-center justify-center w-28 h-28 rounded-2xl border transition-all duration-300 outline-none overflow-hidden
             ${isLocked ? "bg-neutral-900/40 border-neutral-800 text-neutral-600 cursor-pointer" : ""}
             ${isUnlocking ? "bg-emerald-900/40 border-yellow-400/60 shadow-[0_0_20px_rgba(234,179,8,0.3)] scale-105" : ""}
-            ${isUnlocked ? "bg-linear-to-br from-emerald-950/80 to-slate-900 border-emerald-500/40 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:border-emerald-400 hover:scale-105 active:scale-95" : ""}
-          `}
+            ${isUnlocked ? `bg-linear-to-br ${theme.tileUnlocked} hover:scale-105 active:scale-95` : ""}
+            `}
         >
           {/* THE ANIMATED LOCK GRAPHIC OVERLAY */}
           {(isLocked || isUnlocking) && (
@@ -162,7 +164,7 @@ export default function MainMenu() {
 
           {/* THE REVEALED CONTENT (Only processes active visual state items cleanly) */}
           {!isLocked && (
-            <span className="absolute top-1 right-1 w-2 h-2 bg-emerald-400 rounded-full animate-ping opacity-70" />
+            <span className="{`absolute top-1 right-1 w-2 h-2 ${theme.accentDot} rounded-full animate-ping opacity-70" />
           )}
           
           <span className={`text-2xl font-black mb-1 transition-colors duration-300 
@@ -171,8 +173,8 @@ export default function MainMenu() {
           </span>
 
           <span className={`text-[10px] uppercase font-bold tracking-tight text-center px-1 line-clamp-2 transition-colors duration-300
-            ${isLocked ? "text-neutral-600" : "text-zinc-400 group-hover:text-emerald-200"}`}>
-            {level.name}
+            ${isLocked ? "text-neutral-600" : theme.menuAccentText}`}>
+            {level.slug}
           </span>
         </button>
       );
@@ -182,7 +184,7 @@ export default function MainMenu() {
 
       {/*  BOTTOM WORLD SELECTOR MODULE */}
      
-<footer className="w-full flex justify-center items-center z-10 px-2">
+{/* <footer className="w-full flex justify-center items-center z-10 px-2">
   <button 
     onClick={() => router.push('/world-2')} //  This instantly warps players to Grid Glacier!
     className="group relative px-4 py-2.5 sm:px-6 sm:py-3 border rounded-xl font-bold tracking-wider text-xs sm:text-sm transition-all duration-500 hover:scale-105 active:scale-95 shadow-md bg-linear-to-r from-emerald-900 to-slate-900 border-emerald-500/30 text-emerald-300 hover:border-cyan-400"
@@ -193,7 +195,7 @@ export default function MainMenu() {
       <span className="text-[10px] opacity-70 font-medium animate-pulse">(WARP)</span>
     </span>
   </button>
-</footer>
+</footer> */}
       
 
     </main>
