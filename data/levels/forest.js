@@ -12,7 +12,7 @@ export default {
     questions: [
       { id: "f2-q1", title: "The Ancient Scroll List", icon: "🧩", tags: ["HTML", "Lists"], description: "TODO: describe question 1 for forest level 2.", xp: 100, difficulty: "Easy" },
       { id: "f2-q2", title: "The Secret Map Image", icon: "🧩", tags: ["HTML", "Media"], description: "TODO: describe question 2 for forest level 2.", xp: 100, difficulty: "Easy" },
-      { id: "f2-q3", title: "Gatherer's Input Form", icon: "🧩", tags: ["HTML", "Forms"], description: "TODO: describe question 3 for forest level 2.", xp: 100, difficulty: "Easy" },
+      { id: "f2-q3", title: "Question-3", icon: "🧩", tags: ["HTML", "Forms"], description: "TODO: describe question 3 for forest level 2.", xp: 100, difficulty: "Easy" },
     ],
   },
   3: {
@@ -20,7 +20,7 @@ export default {
     questions: [
       { id: "f3-q1", title: "Leafy Text Style", icon: "🧩", tags: ["CSS", " Typography"], description: "TODO: describe question 1 for forest level 3.", xp: 100, difficulty: "Easy" },
       { id: "f3-q2", title: "The Shady Mud Ground", icon: "🧩", tags: ["CSS", "Colors"], description: "TODO: describe question 2 for forest level 3.", xp: 100, difficulty: "Easy" },
-      { id: "f3-q3", title: "QWoodland Borders", icon: "🧩", tags: ["HTML", "CSS"], description: "TODO: describe question 3 for forest level 3.", xp: 100, difficulty: "Easy" },
+      { id: "f3-q3", title: "Question-3", icon: "🧩", tags: ["HTML", "CSS"], description: "TODO: describe question 3 for forest level 3.", xp: 100, difficulty: "Easy" },
     ],
   },
   4: {
