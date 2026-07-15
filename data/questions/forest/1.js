@@ -1,32 +1,45 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+    id:"f1-q1",
+    title:"Planting a Seed",
+    description:"Write the basic structure of a seed using a division element. It needs the correct class name to look right in the game view.",
+    starterCode: { html: `<!-- TODO: Create a div element with the class name 'seed' -->`, css: `.seed { width: 40px; height: 40px; background-color: #d2b48c; border-radius: 50%; }` },
     hints: [
-      "TODO: hint 1 for forest level 1 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
+         "Use a standard <div> element and assign class=\"seed\" to it."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: { html: `<div class="seed"></div>` },
     targetImage: "/gameplay/forest-1/targets/q1.png",
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+   id: "f1-q2",
+    title: "The Elder's Signpost",
+    description: "Every forest explorer needs a title pointing them in the right direction. Create a top-level heading saying 'Welcome to the Forest'.",
+    starterCode: {
+      html: `<!-- TODO: Create a main Heading element saying 'Welcome to the Forest' -->`,
+      css: `h1 { color: #2d6a4f; text-align: center; font-family: sans-serif; }`
+    },
     hints: [
-      "TODO: hint 1 for forest level 1 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Use the standard <h1> tag to represent a top-level main heading."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      html: `<h1>Welcome to the Forest</h1>`
+    },
     targetImage: "/gameplay/forest-1/targets/q2.png",
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+    id: "f1-q3",
+    title: "Forest Navigation Link",
+    description: "Create an anchor link that points to '#oasishaven' so travelers can find their way out. The link text must say 'Find Oasis'.",
+    starterCode: {
+      html: `<!-- TODO: Create a link pointing to the '#oasishaven' anchor target -->`,
+      css: `a { color: #4cc9f0; text-decoration: none; font-weight: bold; }`
+    },
     hints: [
-      "TODO: hint 1 for forest level 1 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Use an <a> tag with an 'href' attribute pointing to '#oasishaven'."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      html: `<a href="#oasishaven">Find Oasis</a>`
+    }, 
     targetImage: "/gameplay/forest-1/targets/q3.png",
   },
 };

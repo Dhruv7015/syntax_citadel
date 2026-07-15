@@ -1,32 +1,54 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+    id: "f9-q1",
+    title: "Summoning the Forest Guard",
+    description: "Define a function named 'summonGuard' that returns the string value 'Arise Guardian!'.",
+    starterCode: {
+      html: ``,
+      css: ``,
+      js: `// TODO: Create the summonGuard function`
+    },
     hints: [
-      "TODO: hint 1 for forest level 9 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Define standard syntax: `function summonGuard() { return \"Arise Guardian!\"; }`."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      js: `function summonGuard() {\n  return "Arise Guardian!";\n}`
+    },
     targetImage: "/gameplay/forest-9/targets/q1.png",
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+    id: "f9-q2",
+    title: "The Druid's Healing Spell",
+    description: "Select the HTML heart container element from the webpage DOM using querySelector. The element has the ID of 'heart'.",
+    starterCode: {
+      html: `<div id="heart">❤️</div>`,
+      css: ``,
+      js: `// TODO: Select the element with ID 'heart' and save it to a variable named 'heartElement'`
+    },
     hints: [
-      "TODO: hint 1 for forest level 9 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Use `document.querySelector('#heart')` or `document.getElementById('heart')` and assign it."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      js: `const heartElement = document.querySelector("#heart");`
+    },
     targetImage: "/gameplay/forest-9/targets/q2.png",
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+   id: "f9-q3",
+    title: "Sprouting Flowers on Click",
+    description: "Register a click listener on the 'growBtn' element. When clicked, it should call the existing function named 'sprout'."
+    ,
+    starterCode: {
+      html: `<button id="growBtn">Grow</button>`,
+      css: ``,
+      js: `const growBtn = document.querySelector("#growBtn");\nfunction sprout() { console.log("🌱"); }\n\n// TODO: Register a click event listener on growBtn to execute sprout`
+    },
     hints: [
-      "TODO: hint 1 for forest level 9 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Use `growBtn.addEventListener('click', sprout);`."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      js: `const growBtn = document.querySelector("#growBtn");\nfunction sprout() { console.log("🌱"); }\n\ngrowBtn.addEventListener("click", sprout);`
+    },
     targetImage: "/gameplay/forest-9/targets/q3.png",
   },
 };

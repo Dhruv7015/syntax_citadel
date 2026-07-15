@@ -1,32 +1,53 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+   id: "f8-q1",
+    title: "Igniting the Campfire",
+    description: "Initialize the wood fuel count. Declare a variable named 'woodCount' using 'let' and set its initial value to 5.",
+    starterCode: {
+      html: `<!-- JS execution context -->`,
+      css: ``,
+      js: `// TODO: Declare a variable 'woodCount' and assign it the value 5`
+    },
     hints: [
-      "TODO: hint 1 for forest level 8 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Use `let woodCount = 5;` to define your variable."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      js: `let woodCount = 5;`
+    },
     targetImage: "/gameplay/forest-8/targets/q1.png",
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+    id: "f8-q2",
+    title: "Counting the Timber logs",
+    description: "An adventurer returned with another log. Update the existing 'totalLogs' variable by adding 1 to its current value.",
+    starterCode: {
+      html: ``,
+      css: ``,
+      js: `let totalLogs = 3;\n// TODO: Increment totalLogs by 1`
+    },
     hints: [
-      "TODO: hint 1 for forest level 8 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "You can use `totalLogs = totalLogs + 1;` or simply the shorthand incrementor `totalLogs++;`."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      js: `let totalLogs = 3;\ntotalLogs++;`
+    },
     targetImage: "/gameplay/forest-8/targets/q2.png",
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
+   id: "f8-q3",
+    title: "Alchemist's Portal Check",
+    description: "Write a verification conditional statement. If 'hasPortalKey' is true, set the 'portalStatus' variable to the text 'OPEN'; otherwise, set it to 'CLOSED'.",
+    starterCode: {
+      html: ``,
+      css: ``,
+      js: `let hasPortalKey = true;\nlet portalStatus = "";\n\n// TODO: Use an if/else block to update portalStatus`
+    },
     hints: [
-      "TODO: hint 1 for forest level 8 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
+      "Check if `hasPortalKey` is truthy, then update `portalStatus = \"OPEN\";` inside the if block, and use an `else` block for the fallback."
     ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    answer: {
+      js: `let hasPortalKey = true;\nlet portalStatus = "";\n\nif (hasPortalKey) {\n  portalStatus = "OPEN";\n} else {\n  portalStatus = "CLOSED";\n}`
+    },
     targetImage: "/gameplay/forest-8/targets/q3.png",
   },
 };
