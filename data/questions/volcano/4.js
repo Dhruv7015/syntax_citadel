@@ -1,32 +1,23 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 4 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-4/targets/q1.png",
+    id: "v4-q1",
+    title: "Lava Flow",
+    description: "Make '.flow' a flex container.",
+    starterCode: { html: `<div class="flow"></div>`, css: `.flow { /* TODO: display flex */ }` },
+    answer: { css: `.flow { display: flex; }` },
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 4 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-4/targets/q2.png",
+    id: "v4-q2",
+    title: "Magma Alignment",
+    description: "Align items to 'center' in the '.magma-stream' flex container.",
+    starterCode: { html: `<div class="magma-stream"></div>`, css: `.magma-stream { display: flex; /* TODO: align-items */ }` },
+    answer: { css: `.magma-stream { display: flex; align-items: center; }` },
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 4 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-4/targets/q3.png",
-  },
+    id: "v4-q3",
+    title: "Debris Spread",
+    description: "Justify content to 'space-around' in '.debris'.",
+    starterCode: { html: `<div class="debris"></div>`, css: `.debris { display: flex; /* TODO: justify-content */ }` },
+    answer: { css: `.debris { display: flex; justify-content: space-around; }` },
+  }
 };

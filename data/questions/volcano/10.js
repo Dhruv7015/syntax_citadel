@@ -1,32 +1,23 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 10 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-10/targets/q1.png",
+    id: "v10-q1",
+    title: "Rock Storage",
+    description: "Push 'Basalt' to 'rocks' array.",
+    starterCode: { js: `let rocks = ['Obsidian']; // TODO: push` },
+    answer: { js: `rocks.push('Basalt');` },
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 10 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-10/targets/q2.png",
+    id: "v10-q2",
+    title: "Filter Magma",
+    description: "Filter 'temps' for > 900.",
+    starterCode: { js: `let temps = [500, 1000]; // TODO: filter` },
+    answer: { js: `const hot = temps.filter(t => t > 900);` },
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 10 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-10/targets/q3.png",
-  },
+    id: "v10-q3",
+    title: "Log Seismic Data",
+    description: "Use forEach to call 'logData'.",
+    starterCode: { js: `let data = [1, 2]; // TODO: forEach` },
+    answer: { js: `data.forEach(logData);` },
+  }
 };

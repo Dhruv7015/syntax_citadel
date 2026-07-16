@@ -1,32 +1,23 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 2 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-2/targets/q1.png",
+    id: "v2-q1",
+    title: "Ash Cloud",
+    description: "Add an image of an ash cloud with source '/ash.png' and alt text 'ash'.",
+    starterCode: { html: `<!-- TODO: img tag with src '/ash.png' -->`, css: `img { width: 100px; }` },
+    answer: { html: `<img src="/ash.png" alt="ash" />` },
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 2 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-2/targets/q2.png",
+    id: "v2-q2",
+    title: "Start Drill",
+    description: "Create a button of type 'button' with the text 'Start Drill'.",
+    starterCode: { html: `<!-- TODO: button tag -->`, css: `button { background: #e85d04; }` },
+    answer: { html: `<button type="button">Start Drill</button>` },
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 2 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-2/targets/q3.png",
-  },
+    id: "v2-q3",
+    title: "Thermal Suit",
+    description: "Create a checkbox input, checked by default.",
+    starterCode: { html: `<!-- TODO: input checkbox -->`, css: `input { accent-color: #d00000; }` },
+    answer: { html: `<input type="checkbox" checked />` },
+  }
 };

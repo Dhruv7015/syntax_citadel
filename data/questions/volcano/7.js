@@ -1,32 +1,23 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 7 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-7/targets/q1.png",
+    id: "v7-q1",
+    title: "Ash Filter",
+    description: "Apply grayscale(50%) filter to '.ash-fall'.",
+    starterCode: { css: `.ash-fall { filter: /* TODO: grayscale */ }` },
+    answer: { css: `.ash-fall { filter: grayscale(50%); }` },
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 7 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-7/targets/q2.png",
+    id: "v7-q2",
+    title: "Eruption Fade",
+    description: "Add transition of 'opacity 0.5s' to '.eruption'.",
+    starterCode: { css: `.eruption { transition: /* TODO: opacity */ }` },
+    answer: { css: `.eruption { transition: opacity 0.5s; }` },
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 7 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-7/targets/q3.png",
-  },
+    id: "v7-q3",
+    title: "Lava Pulse",
+    description: "Animate 'pulse' 2s infinite.",
+    starterCode: { css: `.lava { animation: /* TODO: pulse */ }` },
+    answer: { css: `.lava { animation: pulse 2s infinite; }` },
+  }
 };

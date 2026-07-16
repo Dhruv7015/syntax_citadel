@@ -1,32 +1,23 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 9 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-9/targets/q1.png",
+    id: "v9-q1",
+    title: "Vent Control",
+    description: "Set textContent of 'vent' to 'Open'.",
+    starterCode: { js: `const vent = document.getElementById('vent'); // TODO: textContent` },
+    answer: { js: `vent.textContent = 'Open';` },
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 9 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-9/targets/q2.png",
+    id: "v9-q2",
+    title: "Show Lava",
+    description: "Set display style to 'block'.",
+    starterCode: { js: `const lava = document.getElementById('lava'); // TODO: style.display` },
+    answer: { js: `lava.style.display = 'block';` },
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for volcano level 9 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
-    targetImage: "/gameplay/volcano-9/targets/q3.png",
-  },
+    id: "v9-q3",
+    title: "Eruption Trigger",
+    description: "Add click listener to 'btn' calling 'erupt'.",
+    starterCode: { js: `const btn = document.getElementById('btn'); // TODO: addEventListener` },
+    answer: { js: `btn.addEventListener('click', erupt);` },
+  }
 };
