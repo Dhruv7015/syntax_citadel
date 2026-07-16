@@ -1,32 +1,26 @@
 export default {
   q1: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for cave level 1 q1",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    id: "c1-q1",
+    title: "Cavern Vault",
+    description: "Create a div with class 'cavern' to serve as the structural base layer of the cave.",
+    starterCode: { html: ``, css: `.cavern { background: #1c1a17; height: 120px; width: 100%; }` },
+    answer: { html: `<div class="cavern"></div>` },
     targetImage: "/gameplay/cave-1/targets/q1.png",
   },
   q2: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for cave level 1 q2",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    id: "c1-q2",
+    title: "Echo Warning",
+    description: "Wrap 'Bat swarm detected!' in an em tag to emphasize the structural cave warning.",
+    starterCode: { html: `<p>Echo Scanner: Bat swarm detected!</p>`, css: `em { color: #d90429; font-style: italic; }` },
+    answer: { html: `<p>Echo Scanner: <em>Bat swarm detected!</em></p>` },
     targetImage: "/gameplay/cave-1/targets/q2.png",
   },
   q3: {
-    starterCode: { html: `<div class="target"></div>`, css: `.target {\n\n}` },
-    hints: [
-      "TODO: hint 1 for cave level 1 q3",
-      "TODO: hint 2",
-      "TODO: hint 3",
-    ],
-    answer: { html: `<!-- TODO: answer html -->`, css: `/* TODO: answer css */` },
+    id: "c1-q3",
+    title: "Rope Ascent",
+    description: "Create a link pointing to '/surface' with the text 'Climb Up'.",
+    starterCode: { html: ``, css: `a { color: #a3a3a3; text-decoration: underline; }` },
+    answer: { html: `<a href="/surface">Climb Up</a>` },
     targetImage: "/gameplay/cave-1/targets/q3.png",
-  },
+  }
 };
