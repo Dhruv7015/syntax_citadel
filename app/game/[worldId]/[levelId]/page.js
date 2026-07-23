@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { executeCode } from "@/lib/judge0";
 import WebDevEditor from "@/components/WebDevEditor";
+import { Trophy, PartyPopper } from "lucide-react";
 
 export default function CodingPanel({ questionData, levelData, currentLevel = 1, onClose }) {
   const router = useRouter();
@@ -55,27 +56,27 @@ export default function CodingPanel({ questionData, levelData, currentLevel = 1,
 
   // 3. HANDLE ADVANCEMENT OR COMPLETION
   const advanceRound = () => {
-    const currentRoundXp = roundData.xp || roundData.xpReward || 50;
+    const currentRoundXp = roundData.xp || roundData.xpReward || 0;
     const newTotal = totalXp + currentRoundXp;
     setTotalXp(newTotal);
 
     // If modal onClose prop exists, trigger it on finish
     if (onClose && !levelData?.rounds) {
-      alert(`🎉 Challenge Complete! You earned +${currentRoundXp} XP!`);
+      alert(`<image <PartyPopper size={24} color="#f59e0b" strokeWidth={2} /> Challenge Complete! You earned +${currentRoundXp} XP!`);
       onClose();
       return;
     }
 
     if (currentRound < 3 && (levelData?.q2 || levelData?.rounds)) {
-      alert(`🎉 Round ${currentRound} Complete! Moving to Round ${currentRound + 1}`);
+      alert(`<image <PartyPopper size={24} color="#f59e0b" strokeWidth={2} /> Round ${currentRound} Complete! Moving to Round ${currentRound + 1}`);
       setCurrentRound((prev) => prev + 1);
     } else {
       setTimeout(() => {
-        alert(`🏆 Level Complete! You earned a total of ${newTotal} XP!`);
+        alert(`<image  <Trophy /> /> Level Complete! You earned a total of ${newTotal} XP!`);
         if (onClose) {
           onClose();
         } else {
-          router.push("/mainmenu");
+          router.push("${world}");
         }
       }, 500);
     }
@@ -125,7 +126,7 @@ export default function CodingPanel({ questionData, levelData, currentLevel = 1,
 
         <h1 className="text-2xl font-black mb-2">{roundData.title}</h1>
         <span className="px-2 py-0.5 rounded text-xs bg-emerald-500/20 text-emerald-400 font-bold self-start mb-4">
-          {isWebDev ? "Web Development" : "Data Structures & Algo"}
+          {isWebDev ? "Web Development" : "Data Structures & Algorithm"}
         </span>
         
         <p className="mt-2 text-slate-300 leading-relaxed text-sm">{roundData.description}</p>
