@@ -27,6 +27,7 @@ const WebDevEditor = ({challenge, onComplete}) => {
             onClick={onComplete}
             className="px-5 py-2 bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700
              rounded font-bold text-sm shadow-md text-slate-100 transition-all active:scale-95">
+                Submit 
 
             </button>
         </div>
