@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { executeCode } from "@/lib/judge0";
 import WebDevEditor from "@/components/WebDevEditor";
-import { Trophy, PartyPopper } from "lucide-react";
+
 
 export default function CodingPanel({ questionData, levelData, currentLevel = 1, onClose }) {
   const router = useRouter();
@@ -62,17 +62,17 @@ export default function CodingPanel({ questionData, levelData, currentLevel = 1,
 
     // If modal onClose prop exists, trigger it on finish
     if (onClose && !levelData?.rounds) {
-      alert(`<image <PartyPopper size={24} color="#f59e0b" strokeWidth={2} /> Challenge Complete! You earned +${currentRoundXp} XP!`);
+      alert(` Challenge Complete! You earned +${currentRoundXp} XP!`);
       onClose();
       return;
     }
 
     if (currentRound < 3 && (levelData?.q2 || levelData?.rounds)) {
-      alert(`<image <PartyPopper size={24} color="#f59e0b" strokeWidth={2} /> Round ${currentRound} Complete! Moving to Round ${currentRound + 1}`);
+      alert(`  Round ${currentRound} Complete! Moving to Round ${currentRound + 1}`);
       setCurrentRound((prev) => prev + 1);
     } else {
       setTimeout(() => {
-        alert(`<image  <Trophy /> /> Level Complete! You earned a total of ${newTotal} XP!`);
+        alert(` Level Complete! You earned a total of ${newTotal} XP!`);
         if (onClose) {
           onClose();
         } else {
