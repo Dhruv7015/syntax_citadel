@@ -47,3 +47,7 @@ backend/*.pyc
 backend/instance/
 backend/app.db
 backend/venv/
+
+
+# Frontend
+node_modules
