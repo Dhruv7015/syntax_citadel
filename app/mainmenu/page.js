@@ -1,68 +1,105 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart, Lock, Trophy, Unlock, Flame, ArrowLeft } from 'lucide-react';
 import { getWorldTheme } from '@/lib/worlds';
+import { useAuth } from '@/app/context/AuthContext';
+import StreakCalendar from '@/app/components/StreakCalendar';
+
+import forestData from '@/data/levels/forest';
+import iceworldData from '@/data/levels/iceworld';
+import desertData from '@/data/levels/desert';
+import oceanData from '@/data/levels/ocean';
+import volcanoData from '@/data/levels/volcano';
+import skyData from '@/data/levels/sky';
+import caveData from '@/data/levels/cave';
+import swampData from '@/data/levels/swamp';
+import tundraData from '@/data/levels/tundra';
+import spaceData from '@/data/levels/space';
+
+const WORLD_ORDER = [
+  { id: 1, name: "WORLD-1", slug: "forest" },
+  { id: 2, name: "WORLD-2", slug: "iceworld" },
+  { id: 3, name: "WORLD-3", slug: "desert" },
+  { id: 4, name: "WORLD-4", slug: "ocean" },
+  { id: 5, name: "WORLD-5", slug: "volcano" },
+  { id: 6, name: "WORLD-6", slug: "sky" },
+  { id: 7, name: "WORLD-7", slug: "cave" },
+  { id: 8, name: "WORLD-8", slug: "swamp" },
+  { id: 9, name: "WORLD-9", slug: "tundra" },
+  { id: 10, name: "WORLD-10", slug: "space" },
+];
+
+const WORLD_DATA = {
+  forest: forestData,
+  iceworld: iceworldData,
+  desert: desertData,
+  ocean: oceanData,
+  volcano: volcanoData,
+  sky: skyData,
+  cave: caveData,
+  swamp: swampData,
+  tundra: tundraData,
+  space: spaceData,
+};
+
+function getTotalQuestionsForWorld(slug) {
+  const worldData = WORLD_DATA[slug];
+  if (!worldData) return 0;
+  return Object.values(worldData).reduce(
+    (sum, level) => sum + (level.questions?.length || 0),
+    0
+  );
+}
 
 export default function MainMenu() {
   const router = useRouter();
+  const { user, loading, progress, logout } = useAuth();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const streakButtonRef = useRef(null);
 
-  // Game state
-  const [lives, setLives] = useState(5);
-  const [streak, setStreak] = useState(0);
-  const [points, setPoints] = useState(0);
+  useEffect(() => {
+    if (!loading && !user) router.push('/login');
+  }, [loading, user]);
 
-  const [isMounted, setIsMounted] = useState(false);
-  
-  // 10 Levels with a dynamic status state
-  const [levels, setLevels] = useState([
-  { id: 1, name: "WORLD-1", slug: "forest", status: "unlocked" },
-  { id: 2, name: "WORLD-2", slug: "iceworld", status: "locked" },
-  { id: 3, name: "WORLD-3", slug: "desert", status: "locked" },
-  { id: 4, name: "WORLD-4", slug: "ocean", status: "locked" },
-  { id: 5, name: "WORLD-5", slug: "volcano", status: "locked" },
-  { id: 6, name: "WORLD-6", slug: "sky", status: "locked" },
-  { id: 7, name: "WORLD-7", slug: "cave", status: "locked" },
-  { id: 8, name: "WORLD-8", slug: "swamp", status: "locked" },
-  { id: 9, name: "WORLD-9", slug: "tundra", status: "locked" },
-  { id: 10, name: "WORLD-10", slug: "space", status: "locked" },
-]);
+  if (loading || !user) {
+    return <div className='min-h-screen bg-slate-950' />;
+  }
 
-  useEffect(()=> {
-    setIsMounted(true);
-  }, []);
+  const lives = progress?.lives ?? 5;
+  const streak = progress?.streak ?? 0;
+  const points = progress?.points ?? 0;
+  const solved = progress?.solved ?? [];
 
+  function solvedCountForWorld(slug) {
+    return solved.filter(p => p.world === slug).length;
+  }
 
-  // Dynamic click handler to simulate leveling up and watching the lock pop open!
+  function isWorldComplete(slug) {
+    const total = getTotalQuestionsForWorld(slug);
+    if (total === 0) return false;
+    return solvedCountForWorld(slug) >= total;
+  }
+
+  const levels = WORLD_ORDER.map((w, index) => {
+    const prevComplete = index === 0 || isWorldComplete(WORLD_ORDER[index - 1].slug);
+    return {
+      ...w,
+      status: prevComplete ? "unlocked" : "locked",
+    };
+  });
+
   const handleLevelClick = (clickedLevel, index) => {
     if (clickedLevel.status === "locked") {
-      // Check if the previous level is unlocked. If yes, let's unlock this one!
-      if (index > 0 && levels[index - 1].status === "unlocked") {
-        
-        // 1. Trigger the "unlocking" sequence (shows the open lock)
-        setLevels(prev => prev.map((lvl, i) => i === index ? { ...lvl, status: "unlocking" } : lvl));
-        
-        // 2. After 800ms, fade the lock out entirely and mark as "unlocked"
-        setTimeout(() => {
-          setLevels(prev => prev.map((lvl, i) => i === index ? { ...lvl, status: "unlocked" } : lvl));
-          setPoints(prev => prev + 100); // Reward points for unlocking!
-        }, 800);
-
-      } else {
-        alert(`🔒 Complete "${levels[index - 1]?.name}" first to clear the path!`);
-      }
-    }  else if (clickedLevel.status === "unlocked") {
-  
-  router.push(`/play/${clickedLevel.slug}`);
-}
+      alert(`🔒 Complete all levels in "${levels[index - 1]?.name}" first to clear the path!`);
+    } else {
+      router.push(`/play/${clickedLevel.slug}`);
+    }
   };
-  if(!isMounted) {
-    return <div className='min-h-screen bg-slate-950' />
-  }
 
   return (
     <main className="flex flex-col justify-between min-h-screen bg-linear-to-b from-slate-950 via-emerald-950/40 to-neutral-950 font-mono text-white p-6 relative overflow-hidden">
-      
+
       {/* Visual decorative backgrounds */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -71,7 +108,7 @@ export default function MainMenu() {
       <header className={`w-full max-w-5xl mx-auto flex  items-center justify-between  bg-emerald-950/30 backdrop-blur border border-emerald-500/20 
       rounded-2xl p-2 md:p-4 gap-2 shadow-[0_0_20px_rgba(16,185,129,0.05)]`}>
         <button 
-          onClick={() => router.push('/')}
+          onClick={logout}
           className=" group flex items-center space-x-2 bg-rose-950/60 px-2 border border-rose-500/30 
           md:px-4 md:py-2 rounded-xl text-rose-300 font-bold transition-all duration-300 overflow-hidden hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(244,63,94,0.1)]
           max-w-10.5 hover:max-w-35 md:max-w-37.5 shrink-0 "
@@ -86,26 +123,36 @@ export default function MainMenu() {
           <div className="flex items-center px-2 sm:px-3 h-10 bg-black/40 rounded-xl border border-emerald-800/40 shrink-0">
             <span className="text-gray-400 text-2.75 font-bold hidden md:inline mr-2 tracking-wider">LIVES:</span>
             <div className="flex  space-x-0.5 sm:space-x-1">
-              {isMounted && (
-                <>
-                {Array.from({ length:Math.max(0,lives) }).map((_, i) => (
+              {Array.from({ length: Math.max(0, lives) }).map((_, i) => (
                 <Heart key={`active-${i}`} className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 fill-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.7)] animate-pulse shrink-0" />
               ))}
               {Array.from({ length: Math.max(0, 5 - lives) }).map((_, i) => (
                 <Heart key={`empty-${i}`} className="w-5 h-5 text-zinc-700 fill-zinc-800/50" />
               ))}
-                </>
-              )}
-              
             </div>
           </div>
-          {/*Streak */}
-          <div className="flex items-center space-x-1 bg-black/40 px-2 sm:px-3 h-10  rounded-xl border border-emerald-800/40 shrink-0">
-            <span className="text-sm sm:text-lg text-orange-500 animate-bounce"><Flame /></span>
-            <span className="text-orange-400 font-black text-xs sm:text-sm whitespace-nowrap">
-              {streak} <span className='text-2.5 text-orange-300/70 font-normal ml-0.5'>
-              DAYS</span> 
-              </span>
+
+          {/* Streak — clickable, opens the calendar dropdown */}
+          <div className="relative">
+            <button
+              ref={streakButtonRef}
+              type="button"
+              onClick={() => setShowCalendar(true)}
+              className="flex items-center space-x-1 bg-black/40 px-2 sm:px-3 h-10 rounded-xl border border-emerald-800/40 shrink-0 cursor-pointer hover:border-orange-500/40 transition-colors"
+            >
+              <span className="text-sm sm:text-lg text-orange-500 animate-bounce"><Flame /></span>
+              <span className="text-orange-400 font-black text-xs sm:text-sm whitespace-nowrap">
+                {streak} <span className='text-2.5 text-orange-300/70 font-normal ml-0.5'>
+                DAYS</span> 
+                </span>
+            </button>
+
+            {showCalendar && (
+              <StreakCalendar
+                onClose={() => setShowCalendar(false)}
+                anchorRef={streakButtonRef}
+              />
+            )}
           </div>
 
           <div className="flex items-center space-x-1 bg-linear-to-r from-purple-950/50 to-emerald-950/50 px-2 sm:px-3 h-10 rounded-xl border border-purple-500/20 shrink-0">
@@ -132,9 +179,10 @@ export default function MainMenu() {
   <div className="grid grid-cols-2 md:grid-cols-5 gap-6 w-full p-4 justify-items-center">
     {levels.map((level, index) => {
       const isLocked = level.status === "locked";
-      const isUnlocking = level.status === "unlocking";
       const isUnlocked = level.status === "unlocked";
       const theme = getWorldTheme(level.slug);
+      const solvedCount = solvedCountForWorld(level.slug);
+      const totalQuestions = getTotalQuestionsForWorld(level.slug);
 
       return (
         <button
@@ -142,29 +190,22 @@ export default function MainMenu() {
           onClick={() => handleLevelClick(level, index)}
           className={`group relative flex flex-col items-center justify-center w-28 h-28 rounded-2xl border transition-all duration-300 outline-none overflow-hidden
             ${isLocked ? "bg-neutral-900/40 border-neutral-800 text-neutral-600 cursor-pointer" : ""}
-            ${isUnlocking ? "bg-emerald-900/40 border-yellow-400/60 shadow-[0_0_20px_rgba(234,179,8,0.3)] scale-105" : ""}
             ${isUnlocked ? `bg-linear-to-br ${theme.tileUnlocked} hover:scale-105 active:scale-95` : ""}
             `}
         >
-          {/* THE ANIMATED LOCK GRAPHIC OVERLAY */}
-          {(isLocked || isUnlocking) && (
-            <div className={`absolute inset-0 bg-neutral-950 flex flex-col items-center justify-center z-20 transition-all duration-700 ease-in-out p-1
-              ${isUnlocking ? "opacity-0 scale-150 pointer-events-none -translate-y-5" : "opacity-100 scale-100"}`}
-            >
-              {isLocked ? (
-                <Lock className="w-8 h-8 text-neutral-600 group-hover:text-neutral-400 group-hover:scale-110 transition-transform duration-300" />
-              ) : (
-                <Unlock className="w-8 h-8 text-yellow-400 animate-bounce" />
-              )}
+          {/* THE LOCK GRAPHIC OVERLAY */}
+          {isLocked && (
+            <div className="absolute inset-0 bg-neutral-950 flex flex-col items-center justify-center z-20 p-1">
+              <Lock className="w-8 h-8 text-neutral-600 group-hover:text-neutral-400 group-hover:scale-110 transition-transform duration-300" />
               <span className="text-[9px] text-zinc-600 font-bold tracking-tighter mt-1">
-                {isUnlocking ? "UNLOCKED!" : "LOCKED"}
+                LOCKED
               </span>
             </div>
           )}
 
-          {/* THE REVEALED CONTENT (Only processes active visual state items cleanly) */}
+          {/* THE REVEALED CONTENT */}
           {!isLocked && (
-            <span className="{`absolute top-1 right-1 w-2 h-2 ${theme.accentDot} rounded-full animate-ping opacity-70" />
+            <span className={`absolute top-1 right-1 w-2 h-2 ${theme.accentDot} rounded-full animate-ping opacity-70`} />
           )}
           
           <span className={`text-2xl font-black mb-1 transition-colors duration-300 
@@ -176,27 +217,17 @@ export default function MainMenu() {
             ${isLocked ? "text-neutral-600" : theme.menuAccentText}`}>
             {level.slug}
           </span>
+
+          {!isLocked && (
+            <span className="text-[8px] text-zinc-500 mt-0.5">
+              {Math.min(solvedCount, totalQuestions)}/{totalQuestions}
+            </span>
+          )}
         </button>
       );
     })}
   </div>
 </section>
-
-      {/*  BOTTOM WORLD SELECTOR MODULE */}
-     
-{/* <footer className="w-full flex justify-center items-center z-10 px-2">
-  <button 
-    onClick={() => router.push('/world-2')} //  This instantly warps players to Grid Glacier!
-    className="group relative px-4 py-2.5 sm:px-6 sm:py-3 border rounded-xl font-bold tracking-wider text-xs sm:text-sm transition-all duration-500 hover:scale-105 active:scale-95 shadow-md bg-linear-to-r from-emerald-900 to-slate-900 border-emerald-500/30 text-emerald-300 hover:border-cyan-400"
-  >
-    <span className="flex items-center space-x-2">
-      <span>🗺️</span>
-      <span className="font-black uppercase">SWITCH TO: GRID GLACIER</span>
-      <span className="text-[10px] opacity-70 font-medium animate-pulse">(WARP)</span>
-    </span>
-  </button>
-</footer> */}
-      
 
     </main>
   );

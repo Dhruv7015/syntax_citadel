@@ -2,6 +2,7 @@
 import React from 'react'
 import { useState, useEffect} from 'react'
 import {useRouter} from 'next/navigation'
+import { useAuth } from '@/app/context/AuthContext'
 
 
 
@@ -9,6 +10,7 @@ import {useRouter} from 'next/navigation'
     const [progress, setProgress] = useState(0)
     const [loadingText, setLoadingText] = useState('Booting Source Core Kernel....')
     const router = useRouter()
+    const { user, loading: authLoading } = useAuth()
 
     useEffect(() => {
       const interval = setInterval(() => {
@@ -34,13 +36,13 @@ import {useRouter} from 'next/navigation'
   }, [progress]);
 
   useEffect(() => {
-    if (progress === 100) {
+    if (progress === 100 && !authLoading) {
       const timeout = setTimeout(() => {
-        router.push('/mainmenu');
+        router.push(user ? '/mainmenu' : '/login');
       }, 1000);
       return ()=> clearTimeout(timeout);
       }
-  }, [progress, router]);
+  }, [progress, authLoading, user, router]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-slate-950 via-violet-950 to-neutral-950 font-mono text-white p-4 ">
