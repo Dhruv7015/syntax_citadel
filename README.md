@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏰 Syntax Citadel
 
-## Getting Started
+Syntax Citadel is an interactive, gamified coding education platform where users learn programming by conquering a series of challenging worlds. By solving coding puzzles, users unlock new territories, build streaks, and climb the ranks of the citadel.
 
-First, run the development server:
+## 🚀 Quick Start
 
+### Frontend
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Access at [http://localhost:3000](http://localhost:3000)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+API available at [http://localhost:5000](http://localhost:5000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🌟 Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **🗺️ World-Based Progression**: Navigate through worlds like *Forest*, *Ice World*, and *Space*.
+- **💻 Integrated IDE**: Built-in editor supporting JavaScript and Python.
+- **⚙️ Judge0 Integration**: Real-time code execution against test cases.
+- **❤️ Energy System**: Limited lives that regenerate over time to promote mindful coding.
+- **🔥 Habit Tracking**: Daily streaks and a contribution-style activity calendar.
+- **🔐 Secure Auth**: JWT-based authentication for progress synchronization.
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Next.js (App Router), Tailwind CSS, Lucide React.
+- **Backend**: Flask, SQLAlchemy, Flask-JWT-Extended.
+- **Infrastructure**: SQLite/PostgreSQL, Judge0 (via RapidAPI).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Developed for educational purposes.
