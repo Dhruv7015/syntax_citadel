@@ -36,5 +36,25 @@ API available at [http://localhost:5000](http://localhost:5000)
 - **Backend**: Flask, SQLAlchemy, Flask-JWT-Extended.
 - **Infrastructure**: SQLite/PostgreSQL, Judge0 (via RapidAPI).
 
+## 📂 Project Structure
+
+```text
+.
+├── app/                # Next.js frontend routes and logic
+│   ├── components/     # UI components
+│   ├── context/        # Global state management
+│   ├── game/           # Game engine components
+│   ├── play/           # Dynamic world/level routing
+│   ├── login/          # Auth: Login page
+│   └── signup/         # Auth: Signup page
+├── backend/            # Flask API
+│   ├── app.py          # Entry point and endpoints
+│   └── model.py       # Database models (User, Progress, Activity)
+├── data/               # Game content (Levels, Questions)
+├── lib/                # Shared utilities and Judge0 API client
+├── public/             # Static assets and images
+└── docs/                # Project documentation
+```
+
 ---
 Developed for educational purposes.
