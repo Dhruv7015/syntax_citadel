@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Heart, Lock, Trophy, Flame, ArrowLeft, Star, Box } from 'lucide-react';
 import { getWorldTheme } from '@/lib/worlds';
 import { getLevelData } from '@/lib/levels';
 import CodingPanel from '@/app/game/[worldId]/[levelId]/page';
 import { useAuth } from '@/app/context/AuthContext';
+import StreakCalendar from '@/app/components/StreakCalendar';
 
 const GameArena = () => {
   const router = useRouter();
@@ -19,6 +20,8 @@ const GameArena = () => {
   const levelData = getLevelData(world, levelId);
 
   const [activeQuestion, setActiveQuestion] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const streakButtonRef = useRef(null);
 
   const { user, loading, progress, markSolved } = useAuth();
 
@@ -90,9 +93,23 @@ const GameArena = () => {
             </div>
           </div>
 
-          {/* Streak */}
-          <div className="flex items-center gap-1 bg-black/40 px-3 py-1.5 rounded-xl border border-zinc-700 text-xs font-bold">
-            <Flame className="w-4 h-4 text-orange-400" /> {streak}
+          {/* Streak — clickable, opens the calendar dropdown */}
+          <div className="relative">
+            <button
+              ref={streakButtonRef}
+              type="button"
+              onClick={() => setShowCalendar(true)}
+              className="flex items-center gap-1 bg-black/40 px-3 py-1.5 rounded-xl border border-zinc-700 text-xs font-bold cursor-pointer hover:border-orange-500/40 transition-colors"
+            >
+              <Flame className="w-4 h-4 text-orange-400" /> {streak}
+            </button>
+
+            {showCalendar && (
+              <StreakCalendar
+                onClose={() => setShowCalendar(false)}
+                anchorRef={streakButtonRef}
+              />
+            )}
           </div>
 
           {/* Trophy */}

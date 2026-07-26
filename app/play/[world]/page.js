@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Heart, Lock, Trophy, Unlock, Flame, ArrowLeft } from 'lucide-react';
 import { getWorldTheme } from '@/lib/worlds';
 import { useAuth } from '@/app/context/AuthContext';
+import StreakCalendar from '@/app/components/StreakCalendar';
 
 import forestData from '@/data/levels/forest';
 import iceworldData from '@/data/levels/iceworld';
@@ -37,6 +38,8 @@ export default function WorldLevels() {
   const worldData = WORLD_DATA[world];
 
   const { user, loading, progress } = useAuth();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const streakButtonRef = useRef(null);
 
   useEffect(() => {
     if (!loading && !user) router.push('/login');
@@ -111,13 +114,28 @@ export default function WorldLevels() {
               ))}
             </div>
           </div>
-          {/*Streak */}
-          <div className="flex items-center space-x-1 bg-black/40 px-2 sm:px-3 h-10  rounded-xl border border-emerald-800/40 shrink-0">
-            <span className="text-sm sm:text-lg text-orange-500 animate-bounce"><Flame /></span>
-            <span className="text-orange-400 font-black text-xs sm:text-sm whitespace-nowrap">
-              {streak} <span className='text-2.5 text-orange-300/70 font-normal ml-0.5'>
-                DAYS</span>
-            </span>
+
+          {/* Streak — clickable, opens the calendar dropdown */}
+          <div className="relative">
+            <button
+              ref={streakButtonRef}
+              type="button"
+              onClick={() => setShowCalendar(true)}
+              className="flex items-center space-x-1 bg-black/40 px-2 sm:px-3 h-10 rounded-xl border border-emerald-800/40 shrink-0 cursor-pointer hover:border-orange-500/40 transition-colors"
+            >
+              <span className="text-sm sm:text-lg text-orange-500 animate-bounce"><Flame /></span>
+              <span className="text-orange-400 font-black text-xs sm:text-sm whitespace-nowrap">
+                {streak} <span className='text-2.5 text-orange-300/70 font-normal ml-0.5'>
+                  DAYS</span>
+              </span>
+            </button>
+
+            {showCalendar && (
+              <StreakCalendar
+                onClose={() => setShowCalendar(false)}
+                anchorRef={streakButtonRef}
+              />
+            )}
           </div>
 
           <div className="flex items-center space-x-1 bg-linear-to-r from-purple-950/50 to-emerald-950/50 px-2 sm:px-3 h-10 rounded-xl border border-purple-500/20 shrink-0">
