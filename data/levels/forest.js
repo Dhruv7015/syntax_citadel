@@ -34,19 +34,36 @@ export default {
       },
       {
         id: "f1-q3",
-        title: "Gathering Tools Button",
-        icon: "🎒",
-        tags: ["HTML"],
-        description: "Create a functional user interface button element. The button text must say 'Collect Wood' and it must trigger a disabled state natively.",
+        title: "Balanced Vine Canopy",
+        icon: "🌿",
+        tags: ["Stack", "Strings"],
+        description: "To swing across a forest gorge, you must verify the vine canopy string. Vines are represented by brackets '()[]{}'. A canopy is safe if open vines are closed by matching vine types in the correct order. Return true if safe, false otherwise.",
         xp: 100,
         difficulty: "Easy",
-        starterCode: {
-          html: `<!-- TODO: Create a disabled button containing the text 'Collect Wood' -->`,
-          css: `button:disabled { opacity: 0.6; cursor: not-allowed; }`
-        },
-        hints: ["Use a <button> tag and append the Boolean keyword attribute disabled inside the tag wrapper."],
-        answer: { html: `<button disabled>Collect Wood</button>` }
+        starterCode: `function isValidVines(vines) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: { vines: "()[]{}" },
+        output: true,
+        explanation: "All open brackets match and close in proper order."
+      },
+      {
+        input: { vines: "(]" },
+        output: false,
+        explanation: "Mismatched bracket types."
       }
+    ],
+    hiddenTestCases: [
+      { input: { vines: "{[]}" }, expected: true },
+      { input: { vines: "([)]" }, expected: false },
+      { input: { vines: "]]]]" }, expected: false }
+    ],
+    constraints: {
+      timeComplexity: "O(N)",
+      spaceComplexity: "O(N)",
+      inputConstraints: "1 <= vines.length <= 10^4"
+    }
+  },
     ]
   },
   2: {
@@ -84,18 +101,34 @@ export default {
       },
       {
         id: "f2-q3",
-        title: "Campfire Log Input",
-        icon: "🔥",
-        tags: ["HTML"],
-        description: "Construct a numeric configuration input element. Set its type to accept numbers, configure a minimum input boundary value of 1, and set a current fallback value of 1.",
+        title: "Gathering Acorns",
+        icon: "🌰",
+        tags: ["Arrays", "Sliding Window"],
+        description: "A squirrel named Nutty is running along a straight trail with N trees. Each tree i has acorns[i] acorns. Nutty can only harvest acorns from K consecutive trees before getting tired. Return the maximum total number of acorns Nutty can gather.",
         xp: 100,
         difficulty: "Easy",
-        starterCode: {
-          html: `<!-- TODO: Create a numeric input for campfire logs -->`,
-          css: `input[type="number"] { width: 50px; padding: 5px; }`
-        },
-        hints: ["Assign type=\"number\", min=\"1\", and value=\"1\" onto the target input marker."],
-        answer: { html: `<input type="number" min="1" value="1" />` }
+        starterCode: `function maxAcorns(acorns, k) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: { acorns: [1, 12, -5, -6, 50, 3], k: 4 },
+        output: 51,
+        explanation: "Subarray [12, -5, -6, 50] yields the maximum consecutive sum of 51."
+      },
+      {
+        input: { acorns: [5], k: 1 },
+        output: 5,
+        explanation: "Only 1 tree available, so max total is 5."
+      }
+    ],
+    hiddenTestCases: [
+      { input: { acorns: [-1, -2, -3, -4], k: 2 }, expected: -3 },
+      { input: { acorns: [100, 200, 300, 400], k: 2 }, expected: 700 }
+    ],
+    constraints: {
+      timeComplexity: "O(N)",
+      spaceComplexity: "O(1)",
+      inputConstraints: "1 <= k <= N <= 10^5, -10^4 <= acorns[i] <= 10^4"
+    }
       }
     ]
   },
@@ -134,20 +167,37 @@ export default {
       },
       {
         id: "f3-q3",
-        title: "Treehouse Spacing",
-        icon: "🏠",
-        tags: ["CSS"],
-        description: "Isolate inner content boxes from the structural wooden borders. Configure the uniform inside padding to exactly 20px on all 4 directions.",
+        title: "Lone Wolf Tracker",
+        icon: "🐺",
+        tags: ["Bit Manipulation", "Hash Table"],
+        description: "In the forest, wolves travel in pairs sharing the same ID number. Exactly one lone wolf travels alone without a pair. Given an array of wolf IDs, return the ID of the lone wolf.",
         xp: 100,
         difficulty: "Easy",
-        starterCode: {
-          html: `<div class="supply-chest">Gathered Items</div>`,
-          css: `.supply-chest {\n  border: 4px solid #74c69d;\n  /* TODO: Set all-around padding to 20px */\n}`
-        },
-        hints: ["Use the shorthand padding: 20px; statement property ruleset."],
-        answer: { css: `.supply-chest {\n  border: 4px solid #74c69d;\n  padding: 20px;\n}` }
+        starterCode: `function singleWolf(wolves) {\n  // Write your solution here\n}`,
+        examples: [
+      {
+        input: { wolves: [2, 2, 1] },
+        output: 1,
+        explanation: "ID 2 appears twice, while ID 1 is alone."
+      },
+      {
+        input: { wolves: [4, 1, 2, 1, 2] },
+        output: 4,
+        explanation: "ID 4 appears once."
       }
-    ]
+    ],
+    hiddenTestCases: [
+      { input: { wolves: [99] }, expected: 99 },
+      { input: { wolves: [-1, 5, -1, 3, 5] }, expected: 3 }
+    ],
+    constraints: {
+      timeComplexity: "O(N)",
+      spaceComplexity: "O(1)",
+      inputConstraints: "1 <= wolves.length <= 3 * 10^4"
+    }
+  }, 
+  ]
+
   },
   4: {
     title: "Overgrown Ruins",
@@ -184,19 +234,30 @@ export default {
       },
       {
         id: "f4-q3",
-        title: "Spacing the Thorns",
-        icon: "🌵",
-        tags: ["CSS"],
-        description: "Maintain a safe gap inside the thorn array grid layout. Introduce exactly 15px of space between all adjacent items.",
+        title: "Highest Branch Distance",
+        icon: "🌲",
+        tags: ["Trees", "DFS"],
+        description: "You encounter a giant Redwood represented as a binary tree. The canopy span is defined as the length of the longest path between any two branch nodes (measured in number of edges). Return the canopy span length.",
         xp: 100,
         difficulty: "Medium",
-        starterCode: {
-          html: `<div class="thorn-grid">\n  <div>🔺</div><div>🔺</div>\n</div>`,
-          css: `.thorn-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  /* TODO: Add a 15px grid gap */\n}`
-        },
-        hints: ["Use the standard alignment keyword layout property: gap: 15px;."],
-        answer: { css: `.thorn-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 15px;\n}` }
+        starterCode: `function diameterOfTree(root) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: { root: [1, 2, 3, 4, 5] },
+        output: 3,
+        explanation: "Longest edge path is between leaf node 4 and leaf node 3."
       }
+    ],
+    hiddenTestCases: [
+      { input: { root: [1] }, expected: 0 },
+      { input: { root: [1, 2, null, 3, null, 4] }, expected: 3 }
+    ],
+    constraints: {
+      timeComplexity: "O(N)",
+      spaceComplexity: "O(H)",
+      inputConstraints: "1 <= Tree Nodes <= 10^4"
+    }
+  },
     ]
   },
   5: {
@@ -234,19 +295,30 @@ export default {
       },
       {
         id: "f5-q3",
-        title: "The Camouflaged Pitfall",
-        icon: "⚠️",
-        tags: ["CSS"],
-        description: "Completely hide the dangerous trapbox element from visibility layout without destroying the document spacing dimensions layout footprint.",
+        title: "River Log Hopping",
+        icon: "🪵",
+        tags: ["Greedy", "Dynamic Programming"],
+        description: "You must cross a roaring river by jumping on a row of floating logs. logs[i] represents your maximum jump length from log i. Return the minimum number of jumps needed to reach the last log.",
         xp: 100,
         difficulty: "Medium",
-        starterCode: {
-          html: `<div class="forest-path">\n  <div class="hidden-trap">⚠️ Pitfall</div>\n</div>`,
-          css: `.hidden-trap {\n  background: #7a4419;\n  /* TODO: Hide the element while keeping its space occupied */\n}`
-        },
-        hints: ["To keep space occupied but hide visual visibility rendering completely, use visibility: hidden;."],
-        answer: { css: `.hidden-trap {\n  background: #7a4419;\n  visibility: hidden;\n}` }
+        starterCode: `function minJumps(logs) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: { logs: [2, 3, 1, 1, 4] },
+        output: 2,
+        explanation: "Jump 1 step from index 0 to 1, then 3 steps to the last log."
       }
+    ],
+    hiddenTestCases: [
+      { input: { logs: [1, 1, 1, 1] }, expected: 3 },
+      { input: { logs: [10, 1, 1, 1, 1] }, expected: 1 }
+    ],
+    constraints: {
+      timeComplexity: "O(N)",
+      spaceComplexity: "O(1)",
+      inputConstraints: "1 <= logs.length <= 10^4"
+    }
+  },
     ]
   },
   6: {
@@ -284,19 +356,37 @@ export default {
       },
       {
         id: "f6-q3",
-        title: "Dynamic Leaf Units",
-        icon: "📐",
-        tags: ["CSS"],
-        description: "Make the core structural text size adapt dynamically to the global viewport frame size. Set the text font-size to exactly 5% of the total viewport width (vw).",
+        title: "Forest Clearing Explporations",
+        icon: "🗺️",
+        tags:["BFS", "DFS", "Matrix"],
+        description:"A 2D map represents the forest grid with '1's (dry forest clearings) and '0's (impassable mud). Adjacent land cells horizontally or vertically form connected clearings. Return the total number of distinct clearings.",
         xp: 100,
         difficulty: "Medium",
-        starterCode: {
-          html: `<h2 class="forest-title">Deep Woods</h2>`,
-          css: `.forest-title {\n  /* TODO: Set font size to 5% of the viewport width */\n}`
+        starterCode: `function numClearings(grid) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: {
+          grid: [
+            ["1","1","1","1","0"],
+            ["1","1","0","1","0"],
+            ["1","1","0","0","0"],
+            ["0","0","0","0","0"]
+          ]
         },
-        hints: ["Use the fluid viewport width responsive scale metric sizing property option: font-size: 5vw;."],
-        answer: { css: `.forest-title {\n  font-size: 5vw;\n}` }
+        output: 1,
+        explanation: "All dry land cells connect into a single forest clearing."
       }
+    ],
+    hiddenTestCases: [
+      { input: { grid: [["0","0"],["0","0"]] }, expected: 0 },
+      { input: { grid: [["1","0","1"],["0","1","0"],["1","0","1"]] }, expected: 5 }
+    ],
+    constraints: {
+      timeComplexity: "O(M * N)",
+      spaceComplexity: "O(M * N)",
+      inputConstraints: "1 <= M, N <= 300"
+    }
+  },
     ]
   },
   7: {
@@ -334,19 +424,30 @@ export default {
       },
       {
         id: "f7-q3",
-        title: "Pulsing Spore Warning",
-        icon: "🚨",
-        tags: ["CSS"],
-        description: "Wire up the loop engine mechanics for an emergency warning system spore. Set the animation duration to 1.5 seconds, running an infinite linear loop.",
-        xp: 100,
+        title: "Lumberjack's Saw Height",
+        icon: "🪓",
+        tags: ["Binary Search"],
+        description: "Given an array of tree heights, a saw blade height H cuts off the tops of trees taller than H. Find the maximum integer saw height H that harvests at least K total units of wood.",
+        xp: 150,
         difficulty: "Medium",
-        starterCode: {
-          html: `<div class="spore-beacon">🍄</div>`,
-          css: `.spore-beacon {\n  /* TODO: Attach the pulse animation: 1.5s duration, linear, infinite */\n}\n@keyframes pulse {\n  0% { opacity: 0.3; }\n  50% { opacity: 1.0; }\n  100% { opacity: 0.3; }\n}`
-        },
-        hints: ["Use animation: pulse 1.5s linear infinite;."],
-        answer: { css: `.spore-beacon {\n  animation: pulse 1.5s linear infinite;\n}\n@keyframes pulse {\n  0% { opacity: 0.3; }\n  50% { opacity: 1.0; }\n  100% { opacity: 0.3; }\n}` }
+        starterCode: `function maxSawHeight(trees, k) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: { trees: [20, 15, 10, 17], k: 7 },
+        output: 15,
+        explanation: "Height 15 cuts (20-15)=5 and (17-15)=2 units of wood for 7 total."
       }
+    ],
+    hiddenTestCases: [
+      { input: { trees: [10, 20, 30], k: 60 }, expected: 0 },
+      { input: { trees: [100], k: 10 }, expected: 90 }
+    ],
+    constraints: {
+      timeComplexity: "O(N * log(max(trees)))",
+      spaceComplexity: "O(1)",
+      inputConstraints: "1 <= N <= 10^5, 1 <= K <= 2 * 10^9"
+    }
+  },
     ]
   },
   8: {
@@ -386,20 +487,30 @@ export default {
       },
       {
         id: "f8-q3",
-        title: "The Magic Berry Multiplier",
-        icon: "✖️",
-        tags: ["JS"],
-        description: "Refactor your logic tools using modern ES6 structures. Convert the standard functional math engine routine into an explicit arrow function assignment.",
-        xp: 100,
+        title: "Connecting Ancient Tree Roots",
+        icon: "🕸️",
+        tags: ["Graph", "MST", "Union-Find"],
+        description: "Given 2D coordinates of ancient trees, the cost to connect tree i and j is their Manhattan distance |xi - xj| + |yi - yj|. Return the minimum cost to make all trees connected.",
+        xp: 200,
         difficulty: "Hard",
-        starterCode: {
-          html: ``,
-          css: ``,
-          js: `// TODO: Create an arrow function named 'doubleBerries' that accepts 'x' and returns x * 2`
-        },
-        hints: ["Use arrow function shorthand syntax: const doubleBerries = (x) => x * 2;."],
-        answer: { js: `const doubleBerries = (x) => x * 2;` }
+        starterCode: `function minCostToConnect(trees) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: { trees: [[0,0],[2,2],[3,10],[5,2],[7,0]] },
+        output: 20,
+        explanation: "Connecting all trees into a minimum spanning tree costs 20 units."
       }
+    ],
+    hiddenTestCases: [
+      { input: { trees: [[0,0]] }, expected: 0 },
+      { input: { trees: [[0,0],[1,1],[1,0],[-1,1]] }, expected: 4 }
+    ],
+    constraints: {
+      timeComplexity: "O(N^2)",
+      spaceComplexity: "O(N)",
+      inputConstraints: "1 <= trees.length <= 1000"
+    }
+  },
     ]
   },
   9: {
@@ -439,20 +550,36 @@ export default {
       },
       {
         id: "f9-q3",
-        title: "Plucking the Golden Leaf",
-        icon: "🎯",
-        tags: ["JS"],
-        description: "Intercept real-time interactive framework action events. Hook a native pointer 'click' event listener onto the canvas node variable 'branchZone' to call 'collectLeaf'.",
-        xp: 100,
+        title: "Forest Fire Spread",
+        icon: "🔥",
+        tags: ["BFS", "Graph", "Matrix"],
+        description: "An M x N grid has cells: 0 (empty), 1 (tree), 2 (burning tree). Every minute, burning trees ignite adjacent healthy trees. Return the minimum minutes until no healthy trees remain, or -1 if impossible.",
+        xp: 200,
         difficulty: "Hard",
-        starterCode: {
-          html: `<div id="branchZone">🍂</div>`,
-          css: ``,
-          js: `const branchZone = document.querySelector("#branchZone");\nfunction collectLeaf() { console.log("Collected!"); }\n\n// TODO: Add click event listener to branchZone to run collectLeaf`
+        starterCode: `function minMinutesToBurn(grid) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: {
+          grid: [
+            [2, 1, 1],
+            [1, 1, 0],
+            [0, 1, 1]
+          ]
         },
-        hints: ["Use branchZone.addEventListener(\"click\", collectLeaf);."],
-        answer: { js: `branchZone.addEventListener("click", collectLeaf);` }
+        output: 4,
+        explanation: "Fire spreads completely across 4 minutes."
       }
+    ],
+    hiddenTestCases: [
+      { input: { grid: [[0, 2]] }, expected: 0 },
+      { input: { grid: [[1]] }, expected: -1 }
+    ],
+    constraints: {
+      timeComplexity: "O(M * N)",
+      spaceComplexity: "O(M * N)",
+      inputConstraints: "1 <= M, N <= 100"
+    }
+  },
     ]
   },
   10: {
@@ -492,20 +619,46 @@ export default {
       },
       {
         id: "f10-q3",
-        title: "Scanning Tree Rings",
-        icon: "📋",
-        tags: ["JS"],
-        description: "Run a batch iterator action across structural configuration items. Execute the built-in forEach array mechanism to call the function 'logAge' for each item in the data set.",
+        title: "Mystic Waterfall Energy Path",
+        icon: "🌊",
+        tags:["Dynamic Programming", "Matrix"],
+        description:"Descending an M x N waterfall grid to (M-1, N-1), moving only Right or Down. Cells contain positive health boosts or negative toxic traps. Return the minimum initial health (> 0) required at (0,0) to stay alive.",
         xp: 100,
         difficulty: "Hard",
-        starterCode: {
-          html: ``,
-          css: ``,
-          js: `let rings = [120, 85, 210];\nfunction logAge(r) { console.log("Age: " + r); }\n\n// TODO: Call logAge for each item in the rings array using forEach`
+        starterCode: `function calculateMinimumHP(grid) {\n  // Write your solution here\n}`,
+    examples: [
+      {
+        input: {
+          grid: [
+            [-2, -3, 3],
+            [-5, -10, 1],
+            [10, 30, -5]
+          ]
         },
-        hints: ["Pass the tracking callback reference directly down: rings.forEach(logAge);."],
-        answer: { js: `rings.forEach(logAge);` }
+        output: 7,
+        explanation: "Path RIGHT -> RIGHT -> DOWN -> DOWN requires starting health of 7."
       }
+    ],
+    hiddenTestCases: [
+      { input: { grid: [[10]] }, expected: 1 },
+      { input: { grid: [[-10]] }, expected: 11 },
+      {
+        input: {
+          grid: [
+            [1, -3, 3],
+            [0, -2, 0],
+            [-3, -3, -3]
+          ]
+        },
+        expected: 3
+      }
+    ],
+    constraints: {
+      timeComplexity: "O(M * N)",
+      spaceComplexity: "O(M * N)",
+      inputConstraints: "1 <= M, N <= 200, -1000 <= grid[i][j] <= 1000"
+    }
+  }
     ]
   }
 };
