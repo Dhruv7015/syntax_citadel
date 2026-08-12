@@ -4,7 +4,13 @@ import { useRouter, useParams } from 'next/navigation';
 import { Heart, Lock, Trophy, Flame, ArrowLeft, Star, Box } from 'lucide-react';
 import { getWorldTheme } from '@/lib/worlds';
 import { getLevelData } from '@/lib/levels';
-import CodingPanel from '@/app/game/[worldId]/[levelId]/page';
+import dynamic from 'next/dynamic';
+
+// Dynamic import for Monaco / CodingPanel (Client-side only)
+const CodingPanel = dynamic(() => import('@/components/CodingPanel'), { 
+  ssr: false,
+  loading: () => <div className="p-4 text-white font-mono">Loading IDE...</div>
+});
 
 const GameArena = () => {
   const router = useRouter();
@@ -19,12 +25,14 @@ const GameArena = () => {
   const levelData = getLevelData(world, levelId);
 
   const [activeQuestion, setActiveQuestion] = useState(null);
-
   const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => { setIsMounted(true); }, []);
+
+  useEffect(() => { 
+    setIsMounted(true); 
+  }, []);
 
   if (!isMounted) return <div className='min-h-screen bg-slate-950' />;
-
+  
   if (!levelData) {
     return (
       <div className='min-h-screen bg-slate-950 text-white flex items-center justify-center font-mono'>
@@ -38,14 +46,12 @@ const GameArena = () => {
     ? levelData
     : levelData.questions || Object.values(levelData);
 
-  // FIX: Alias questionData to activeQuestion so any reference to questionData resolves safely
   const questionData = activeQuestion;
-
-  const solvedCount = 0; // Wire to real progress later
+  const solvedCount = 0; 
   const totalQuestions = questionsList.length;
 
   return (
-    <main className={`min-h-screen bg-linear-to-b ${theme.bgGradient} font-mono text-white p-6 relative`}>
+    <main className={`min-h-screen bg-linear-to-b ${theme.bgGradient} font-mono text-white p-4 sm:p-6 relative`}>
 
       {/* TOP BAR */}
       <div className="max-w-3xl mx-auto flex items-center justify-between mb-6">
@@ -119,7 +125,7 @@ const GameArena = () => {
       {/* QUESTION CARDS */}
       <div className="max-w-3xl mx-auto space-y-4">
         {questionsList.map((q) => (
-          <div key={q.id} className="flex items-center justify-between bg-zinc-900/60 border border-zinc-800 rounded-2xl p-4">
+          <div key={q.id || q.title} className="flex items-center justify-between bg-zinc-900/60 border border-zinc-800 rounded-2xl p-4">
             <div className="flex items-center gap-4">
               <div className="text-3xl">{q.icon || "📜"}</div>
               <div>
@@ -158,41 +164,40 @@ const GameArena = () => {
         <div className="text-3xl"><Box /></div>
       </div>
 
-      {/* CODING PANEL OVERLAY */}
+      {/* RESPONSIVE CODING PANEL OVERLAY */}
       {activeQuestion && (
-        <div className='fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 w-screen h-screen'>
-          <div className='bg-zinc-950 border border-zinc-700 w-full max-w-6xl h-[90vh] flex flex-col relative overflow-hidden shadow-2xl rounded-2xl'>
-             
-             {/* Header for the overlay */}
-             <div className='flex justify-between items-center p-4 border-b border-zinc-800 bg-zinc-900 shrink-0'>
-              <h2 className='font-bold flex items-center gap-2 text-white'>
-                <span className='text-xl'>{activeQuestion.icon || "📜"}</span>
-                {activeQuestion.title}
-              </h2>
-              <button 
-                onClick={() => setActiveQuestion(null)}
-                className='text-zinc-400 hover:text-white bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-lg text-sm transition-colors cursor-pointer'
-              >
-                Close
-              </button>
-             </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-2 sm:p-4 md:p-6">
+          <div className="relative w-full max-w-7xl h-[95dvh] sm:h-[90vh] bg-slate-900 border border-slate-700/80 rounded-xl shadow-2xl flex flex-col overflow-hidden">
+            
+            {/* FLOATING CLOSE BUTTON */}
+            <button 
+              onClick={() => setActiveQuestion(null)}
+              className="absolute top-3 right-3 z-30 p-1.5 rounded-lg bg-slate-800/90 hover:bg-rose-600 text-slate-300 hover:text-white transition border border-slate-700 cursor-pointer"
+              title="Close Panel"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
 
-             {/* Content area */}
-            <div className="flex-1 p-0 flex flex-col overflow-hidden">
-               <CodingPanel
-                 levelData={levelData}
-                 questionData={questionData}
-                 currentLevel={levelId}
-                 onClose={() => setActiveQuestion(null)}
-               />
+            {/* CODING PANEL COMPONENT */}
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+              <CodingPanel
+                key={activeQuestion.id || activeQuestion.title}
+                question={activeQuestion}
+                levelData={levelData}
+                questionData={questionData}
+                currentLevel={levelId}
+                onClose={() => setActiveQuestion(null)}
+              />
             </div>
 
           </div>
-        </div> 
+        </div>
       )}
 
     </main>
   );
-}
+};
 
 export default GameArena;

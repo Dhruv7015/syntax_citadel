@@ -1,55 +1,89 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Heart, Lock, Trophy, Unlock, Flame, ArrowLeft } from 'lucide-react';
 import { getWorldTheme } from '@/lib/worlds';
+import { useAuth } from '@/app/context/AuthContext';
+import StreakCalendar from '@/app/components/StreakCalendar';
+
+import forestData from '@/data/levels/forest';
+import iceworldData from '@/data/levels/iceworld';
+import desertData from '@/data/levels/desert';
+import oceanData from '@/data/levels/ocean';
+import volcanoData from '@/data/levels/volcano';
+import skyData from '@/data/levels/sky';
+import caveData from '@/data/levels/cave';
+import swampData from '@/data/levels/swamp';
+import tundraData from '@/data/levels/tundra';
+import spaceData from '@/data/levels/space';
+
+const WORLD_DATA = {
+  forest: forestData,
+  iceworld: iceworldData,
+  desert: desertData,
+  ocean: oceanData,
+  volcano: volcanoData,
+  sky: skyData,
+  cave: caveData,
+  swamp: swampData,
+  tundra: tundraData,
+  space: spaceData,
+};
 
 export default function WorldLevels() {
   const router = useRouter();
-  const [lives, setLives] = useState(5);
-  const [streak, setStreak] = useState(0);
-  const [points, setPoints] = useState(0);
   const params = useParams();
   const world = params.world;
   const theme = getWorldTheme(world);
+  const worldData = WORLD_DATA[world];
 
-  const [isMounted, setIsMounted] = useState(false);
-
-  const [levels, setLevels] = useState([
-    { id: 1, status: "unlocked" },
-    { id: 2, status: "locked" },
-    { id: 3, status: "locked" },
-    { id: 4, status: "locked" },
-    { id: 5, status: "locked" },
-    { id: 6, status: "locked" },
-    { id: 7, status: "locked" },
-    { id: 8, status: "locked" },
-    { id: 9, status: "locked" },
-    { id: 10, status: "locked" },
-  ]);
+  const { user, loading, progress } = useAuth();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const streakButtonRef = useRef(null);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    if (!loading && !user) router.push('/login');
+  }, [loading, user]);
+
+  if (loading || !user) {
+    return <div className='min-h-screen bg-slate-950' />;
+  }
+
+  const lives = progress?.lives ?? 5;
+  const streak = progress?.streak ?? 0;
+  const points = progress?.points ?? 0;
+  const solved = progress?.solved ?? [];
+
+  // Which question IDs are solved for this world + level
+  function solvedIdsForLevel(levelId) {
+    return solved
+      .filter(p => p.world === world && Number(p.level) === Number(levelId))
+      .map(p => p.questionId);
+  }
+
+  // A level is complete when every one of its question IDs is solved
+  function isLevelComplete(levelId) {
+    const levelData = worldData?.[levelId];
+    if (!levelData) return false;
+    const requiredIds = levelData.questions.map(q => q.id);
+    const solvedIds = solvedIdsForLevel(levelId);
+    return requiredIds.every(id => solvedIds.includes(id));
+  }
+
+  // Build the 1-10 level list with real unlock status
+  const levels = Array.from({ length: 10 }, (_, i) => {
+    const levelId = i + 1;
+    const prevComplete = levelId === 1 || isLevelComplete(levelId - 1);
+    return { id: levelId, status: prevComplete ? "unlocked" : "locked" };
+  });
 
   const handleLevelClick = (clickedLevel, index) => {
     if (clickedLevel.status === "locked") {
-      if (index > 0 && levels[index - 1].status === "unlocked") {
-        setLevels(prev => prev.map((lvl, i) => i === index ? { ...lvl, status: "unlocking" } : lvl));
-        setTimeout(() => {
-          setLevels(prev => prev.map((lvl, i) => i === index ? { ...lvl, status: "unlocked" } : lvl));
-        }, 800);
-      } else {
-        alert(`🔒 Complete Level ${levels[index - 1]?.id} first to clear the path!`);
-      }
-    } else if (clickedLevel.status === "unlocked") {
+      alert(`🔒 Complete Level ${levels[index - 1]?.id} first to clear the path!`);
+    } else {
       router.push(`/play/${world}/${clickedLevel.id}`);
     }
   };
-
-  if (!isMounted) {
-    return <div className='min-h-screen bg-slate-950' />;
-  }
 
   return (
     <main className={`flex flex-col justify-between min-h-screen bg-linear-to-b ${theme.bgGradient} font-mono text-white p-6 relative overflow-hidden`}>
@@ -64,7 +98,7 @@ export default function WorldLevels() {
           className="group flex items-center space-x-2 bg-rose-950/60 px-2 border border-rose-500/30 md:px-4 md:py-2 rounded-xl text-rose-300 font-bold transition-all duration-300 overflow-hidden hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(244,63,94,0.1)] max-w-10.5 hover:max-w-35 md:max-w-37.5 shrink-0"
         >
           <span className='shrink-0'><ArrowLeft /></span>
-          <span className='opacity-0 group-hover:opacity-100 md:opacity-100 transition-opacity duration-300 text-xs md:text-sm whitespace-nowrap tracking-wide'>Back to Map</span>
+          <span className='opacity-0 group-hover:opacity-100 md:opacity-100 transition-opacity duration-300 text-xs md:text-sm whitespace-nowrap tracking-wide'>Map</span>
         </button>
 
         <div className="flex items-center gap-1.5 sm:gap-3">
@@ -72,26 +106,36 @@ export default function WorldLevels() {
           <div className="flex items-center px-2 sm:px-3 h-10 bg-black/40 rounded-xl border border-emerald-800/40 shrink-0">
             <span className="text-gray-400 text-2.75 font-bold hidden md:inline mr-2 tracking-wider">LIVES:</span>
             <div className="flex  space-x-0.5 sm:space-x-1">
-              {isMounted && (
-                <>
-                  {Array.from({ length: Math.max(0, lives) }).map((_, i) => (
-                    <Heart key={`active-${i}`} className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 fill-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.7)] animate-pulse shrink-0" />
-                  ))}
-                  {Array.from({ length: Math.max(0, 5 - lives) }).map((_, i) => (
-                    <Heart key={`empty-${i}`} className="w-5 h-5 text-zinc-700 fill-zinc-800/50" />
-                  ))}
-                </>
-              )}
-
+              {Array.from({ length: Math.max(0, lives) }).map((_, i) => (
+                <Heart key={`active-${i}`} className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 fill-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.7)] animate-pulse shrink-0" />
+              ))}
+              {Array.from({ length: Math.max(0, 5 - lives) }).map((_, i) => (
+                <Heart key={`empty-${i}`} className="w-5 h-5 text-zinc-700 fill-zinc-800/50" />
+              ))}
             </div>
           </div>
-          {/*Streak */}
-          <div className="flex items-center space-x-1 bg-black/40 px-2 sm:px-3 h-10  rounded-xl border border-emerald-800/40 shrink-0">
-            <span className="text-sm sm:text-lg text-orange-500 animate-bounce"><Flame /></span>
-            <span className="text-orange-400 font-black text-xs sm:text-sm whitespace-nowrap">
-              {streak} <span className='text-2.5 text-orange-300/70 font-normal ml-0.5'>
-                DAYS</span>
-            </span>
+
+          {/* Streak — clickable, opens the calendar dropdown */}
+          <div className="relative">
+            <button
+              ref={streakButtonRef}
+              type="button"
+              onClick={() => setShowCalendar(true)}
+              className="flex items-center space-x-1 bg-black/40 px-2 sm:px-3 h-10 rounded-xl border border-emerald-800/40 shrink-0 cursor-pointer hover:border-orange-500/40 transition-colors"
+            >
+              <span className="text-sm sm:text-lg text-orange-500 animate-bounce"><Flame /></span>
+              <span className="text-orange-400 font-black text-xs sm:text-sm whitespace-nowrap">
+                {streak} <span className='text-2.5 text-orange-300/70 font-normal ml-0.5'>
+                  DAYS</span>
+              </span>
+            </button>
+
+            {showCalendar && (
+              <StreakCalendar
+                onClose={() => setShowCalendar(false)}
+                anchorRef={streakButtonRef}
+              />
+            )}
           </div>
 
           <div className="flex items-center space-x-1 bg-linear-to-r from-purple-950/50 to-emerald-950/50 px-2 sm:px-3 h-10 rounded-xl border border-purple-500/20 shrink-0">
@@ -101,12 +145,6 @@ export default function WorldLevels() {
             </span>
           </div>
         </div>
-
-        {/* <div className="text-center">
-          <span className="text-xs tracking-widest uppercase font-bold text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-            {theme.name}
-          </span>
-        </div> */}
       </header>
 
       {/* WORLD TITLE + LEVEL GRID */}
@@ -120,8 +158,9 @@ export default function WorldLevels() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-6 w-full p-4 justify-items-center">
           {levels.map((level, index) => {
             const isLocked = level.status === "locked";
-            const isUnlocking = level.status === "unlocking";
             const isUnlocked = level.status === "unlocked";
+            const solvedIds = solvedIdsForLevel(level.id);
+            const totalQuestions = worldData?.[level.id]?.questions?.length ?? 0;
 
             return (
               <button
@@ -129,21 +168,14 @@ export default function WorldLevels() {
                 onClick={() => handleLevelClick(level, index)}
                 className={`group relative flex flex-col items-center justify-center w-28 h-28 rounded-2xl border transition-all duration-300 outline-none overflow-hidden
                   ${isLocked ? "bg-neutral-900/40 border-neutral-800 text-neutral-600 cursor-pointer" : ""}
-                  ${isUnlocking ? "bg-emerald-900/40 border-yellow-400/60 shadow-[0_0_20px_rgba(234,179,8,0.3)] scale-105" : ""}
                   ${isUnlocked ? `bg-linear-to-br ${theme.tileUnlocked} hover:scale-105 active:scale-95` : ""}
                 `}
               >
-                {(isLocked || isUnlocking) && (
-                  <div className={`absolute inset-0 bg-neutral-950 flex flex-col items-center justify-center z-20 transition-all duration-700 ease-in-out p-1
-                    ${isUnlocking ? "opacity-0 scale-150 pointer-events-none -translate-y-5" : "opacity-100 scale-100"}`}
-                  >
-                    {isLocked ? (
-                      <Lock className="w-8 h-8 text-neutral-600 group-hover:text-neutral-400 group-hover:scale-110 transition-transform duration-300" />
-                    ) : (
-                      <Unlock className="w-8 h-8 text-yellow-400 animate-bounce" />
-                    )}
+                {isLocked && (
+                  <div className="absolute inset-0 bg-neutral-950 flex flex-col items-center justify-center z-20 p-1">
+                    <Lock className="w-8 h-8 text-neutral-600 group-hover:text-neutral-400 group-hover:scale-110 transition-transform duration-300" />
                     <span className="text-[9px] text-zinc-600 font-bold tracking-tighter mt-1">
-                      {isUnlocking ? "UNLOCKED!" : "LOCKED"}
+                      LOCKED
                     </span>
                   </div>
                 )}
@@ -161,6 +193,12 @@ export default function WorldLevels() {
                   ${isLocked ? "text-neutral-600" : "text-zinc-400 group-hover:text-emerald-200"}`}>
                   LEVEL {level.id}
                 </span>
+
+                {!isLocked && (
+                  <span className="text-[8px] text-zinc-500 mt-0.5">
+                    {solvedIds.length}/{totalQuestions}
+                  </span>
+                )}
               </button>
             );
           })}
